@@ -16,11 +16,6 @@ class Application:
         self.group = groupHelper(self)
         self.contact = contactHelper(self)
 
-
-    def open_home_page(self):
-        wd = self.wd
-        wd.get("http://p4ooolo.local/addressbook/index.php")
-
     def is_element_present(self, how, what):
         try:
             self.wd.find_element(by=how, value=what)
