@@ -31,13 +31,24 @@ class Application:
         return True
 
 
+    def is_valid(self):
+        try:
+            self.wd.current_url()
+            return True
+        except:
+            return False
+
+
     def destroy(self):
         self.wd.quit()
 
 
-    def return_to_home_page(self):
-        wd = self.wd
-        wd.find_element_by_link_text("home").click()
-        wd.get("http://p4ooolo.local/addressbook/")
+    # def return_to_home_page(self):
+    #     wd = self.wd
+    #     wd.find_element_by_link_text("home").click()
+    #     wd.get("http://p4ooolo.local/addressbook/")
+
+
+
 
 
