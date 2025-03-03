@@ -30,19 +30,19 @@ class contactHelper:
         self.change_contact_value("title", contact.title)
         self.change_contact_value("company", contact.company)
         self.change_contact_value("address", contact.address)
-        self.change_contact_value("homenumber", contact.homenumber)
+        self.change_contact_value("home", contact.homenumber)
         self.change_contact_value("mobile", contact.mobile)
         self.change_contact_value("work", contact.work)
         self.change_contact_value("fax", contact.fax)
         self.change_contact_value("email", contact.email)
         self.change_contact_value("email2", contact.email2)
-        self.change_contact_value("bday", contact.bday)
+        self.change_select_value("bday", contact.bday)
         self.change_contact_value("homepage", contact.homepage)
         self.change_contact_value("email3", contact.email3)
-        self.change_contact_value("bmonth", contact.bmonth)
+        self.change_select_value("bmonth", contact.bmonth)
         self.change_contact_value("byear", contact.byear)
-        self.change_contact_value("aday", contact.aday)
-        self.change_contact_value("amonth", contact.amonth)
+        self.change_select_value("aday", contact.aday)
+        self.change_select_value("amonth", contact.amonth)
         self.change_contact_value("ayear", contact.ayear)
 
 
@@ -52,6 +52,12 @@ class contactHelper:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
+
+    def change_select_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
 
 
     def modify_first_contact(self, new_contact_data):
@@ -68,7 +74,4 @@ class contactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath('//input[@value="Delete"]')
 
-    def return_to_home_page(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("/html/body/div/div[4]/div/i/a").click()
 

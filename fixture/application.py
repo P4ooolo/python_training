@@ -43,10 +43,10 @@ class Application:
         self.wd.quit()
 
 
-    # def return_to_home_page(self):
-    #     wd = self.wd
-    #     wd.find_element_by_link_text("home").click()
-    #     wd.get("http://p4ooolo.local/addressbook/")
+    def return_to_home_page(self):
+        wd = self.wd
+        wd.find_element_by_link_text("home").click()
+        wd.get("http://p4ooolo.local/addressbook/")
 
 
 
