@@ -3,10 +3,6 @@ class groupHelper:
     def __init__(self, app):
         self.app = app
 
-    def return_to_groups(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
-
     def create(self, group):
         wd = self.app.wd
         # init group creation
@@ -16,7 +12,6 @@ class groupHelper:
         wd.find_element_by_name("submit").click()
 
     def fill_group_form(self, group):
-        wd = self.app.wd
         self.change_field_value("group_name", group.name)
         self.change_field_value("group_header", group.header)
         self.change_field_value("group_footer", group.footer)
