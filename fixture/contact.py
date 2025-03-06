@@ -16,13 +16,11 @@ class contactHelper:
 
 
     def create_contact(self, contact):
-        wd = self.app.wd
         # init contact creation
-        wd.get("http://p4ooolo.local/addressbook/edit.php")
+        self.open_form()
         self.fill_contact_form(contact)
 
     def fill_contact_form(self, contact):
-        wd = self.app.wd
         self.change_contact_value("firstname", contact.firstname)
         self.change_contact_value("middlename", contact.middlename)
         self.change_contact_value("lastname", contact.lastname)
@@ -45,6 +43,10 @@ class contactHelper:
         self.change_select_value("amonth", contact.amonth)
         self.change_contact_value("ayear", contact.ayear)
 
+
+    def submit_new_number(self):
+        wd = self.app.wd
+        wd.find_element_by_name("submit").click()
 
     def change_contact_value(self, field_name, text):
         wd = self.app.wd

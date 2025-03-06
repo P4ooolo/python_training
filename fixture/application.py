@@ -11,7 +11,7 @@ class Application:
 
     def __init__(self):
         self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(60)
+        self.wd.implicitly_wait(20)
         self.session = sessionHelper(self)
         self.group = groupHelper(self)
         self.contact = contactHelper(self)
@@ -45,8 +45,8 @@ class Application:
 
     def return_to_home_page(self):
         wd = self.wd
-        wd.find_element_by_link_text("home").click()
-        wd.get("http://p4ooolo.local/addressbook/")
+        if not wd.current_url.endswith("/index.php"):
+            wd.get("http://p4ooolo.local/addressbook/")
 
 
 
