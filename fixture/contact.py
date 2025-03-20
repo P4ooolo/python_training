@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import Select
+from model.contact import Contact
 
 class contactHelper:
 
@@ -19,6 +20,7 @@ class contactHelper:
         # init contact creation
         self.open_form()
         self.fill_contact_form(contact)
+        self.submit_new_number()
 
     def fill_contact_form(self, contact):
         self.change_contact_value("firstname", contact.firstname)
@@ -65,7 +67,7 @@ class contactHelper:
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
         # open modification form
-        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
+        wd.find_element_by_css_selector('tr[name="entry"] td:nth-child(8) a').click()
         # fill group form
         self.fill_contact_form(new_contact_data)
         # submit modification
@@ -74,10 +76,20 @@ class contactHelper:
     def delete_first_number(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
-        wd.find_element_by_xpath('//input[@value="Delete"]')
+        wd.find_element_by_xpath('//input[@value="Delete"]').click()
 
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        contacts = []
+        for element in wd.find_elements_by_css_selector('table tr[name="entry"]'):
+            lastname = element.find_element_by_css_selector("td:nth-child(2)").text
+            firstname = element.find_element_by_css_selector("td:nth-child(3)").text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return contacts
 
 
