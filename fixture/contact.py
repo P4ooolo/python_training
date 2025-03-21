@@ -21,6 +21,7 @@ class contactHelper:
         self.open_form()
         self.fill_contact_form(contact)
         self.submit_new_number()
+        self.contact_cache = None
 
     def fill_contact_form(self, contact):
         self.change_contact_value("firstname", contact.firstname)
@@ -72,24 +73,29 @@ class contactHelper:
         self.fill_contact_form(new_contact_data)
         # submit modification
         wd.find_element_by_name("update").click()
+        self.contact_cache = None
 
     def delete_first_number(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath('//input[@value="Delete"]').click()
+        self.contact_cache = None
 
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        contacts = []
-        for element in wd.find_elements_by_css_selector('table tr[name="entry"]'):
-            lastname = element.find_element_by_css_selector("td:nth-child(2)").text
-            firstname = element.find_element_by_css_selector("td:nth-child(3)").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(lastname=lastname, firstname=firstname, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.contact_cache = []
+            for element in wd.find_elements_by_css_selector('table tr[name="entry"]'):
+                lastname = element.find_element_by_css_selector("td:nth-child(2)").text
+                firstname = element.find_element_by_css_selector("td:nth-child(3)").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return list(self.contact_cache)
 
 
