@@ -7,8 +7,8 @@ class contactHelper:
         self.app = app
 
     def open_form(self):
-            wd = self.app.wd
-            wd.find_element_by_link_text("add new").click()
+        wd = self.app.wd
+        wd.find_element_by_link_text("add new").click()
 
 
     def select_first_contact(self):
@@ -81,9 +81,8 @@ class contactHelper:
 
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
-        self.select_contact_by_index(index)
         # open modification form
-        wd.find_element_by_css_selector('tr[name="entry"] td:nth-child(8) a').click()
+        wd.find_element_by_css_selector(f'tr:nth-child({index+2}) td:nth-child(8) a').click()
         # fill group form
         self.fill_contact_form(new_contact_data)
         # submit modification
