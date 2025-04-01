@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from model.contact import Contact
+import re
 
 class contactHelper:
 
@@ -106,6 +107,21 @@ class contactHelper:
 
     contact_cache = None
 
+    def open_contact_to_edit_by_index(self, index):
+        wd = self.app.wd
+        self.app.return_to_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
+
+    def open_contact_to_view_by_index(self, index):
+        wd = self.app.wd
+        self.app.return_to_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+
     def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
@@ -114,7 +130,48 @@ class contactHelper:
                 lastname = element.find_element_by_css_selector("td:nth-child(2)").text
                 firstname = element.find_element_by_css_selector("td:nth-child(3)").text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+                all_phones = element.find_element_by_css_selector("td:nth-child(6)").text
+                all_emails = element.find_element_by_css_selector("td:nth-child(5)").text
+                address = element.find_element_by_css_selector("td:nth-child(4)").text
+                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails, address=address))
         return list(self.contact_cache)
 
+    # def get_contact_list(self):
+    #     if self.contact_cache is None:
+    #         wd = self.app.wd
+    #         self.contact_cache = []
+    #         for row in wd.find_elements_by_name("entry"):
+    #             cells = row.find_elements_by_tag_name("td")
+    #             firstname = cells[1].text
+    #             lastname = cells[2].text
+    #             id = cells[0].find_element_by_tag_name("input").get_attribut("value")
+    #             all_phones = cells[5].text.splitlines()
+    #             self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, homephone=all_phones[0], mobilephone=all_phones[1],workphone=all_phones[2], secondaryphon=all_phones[3]))
+    #     return list(self.contact_cache)
 
+
+    def get_contact_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        homenumber = wd.find_element_by_name("home").get_attribute("value")
+        work = wd.find_element_by_name("work").get_attribute("value")
+        mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+
+        return Contact(firstname=firstname, lastname=lastname, id=id, homenumber=homenumber, work=work, mobile=mobile, email=email, email2=email2, email3=email3, address=address)
+
+    def get_contact_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_contact_to_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        homenumber = re.search("H: (.*)", text).group(1)
+        work = re.search("W: (.*)", text).group(1)
+        mobile = re.search("M: (.*)", text).group(1)
+        # fax = re.search("F: (.*)", text).group(1)
+        return Contact(homenumber=homenumber, work=work, mobile=mobile)
