@@ -9,12 +9,20 @@ from fixture.session import sessionHelper
 
 class Application:
 
-    def __init__(self):
-        self.wd = webdriver.Chrome()
+    def __init__(self, browser, base_url):
+        if browser == "chrome":
+            self.wd = webdriver.Chrome()
+        elif browser == "firefox":
+            self.wd = webdriver.Firefox()
+        elif browser == "ie":
+            self.wd = webdriver.Ie()
+        else:
+            raise ValueError("Unrecognized browser %s" % browser)
         self.wd.implicitly_wait(20)
         self.session = sessionHelper(self)
         self.group = groupHelper(self)
         self.contact = contactHelper(self)
+        self.base_url = base_url
 
     def is_element_present(self, how, what):
         try:
@@ -46,7 +54,7 @@ class Application:
     def return_to_home_page(self):
         wd = self.wd
         if not wd.current_url.endswith("/index.php"):
-            wd.get("http://p4ooolo.local/addressbook/")
+            wd.get(self.base_url)
 
 
 
