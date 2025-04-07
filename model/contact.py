@@ -31,29 +31,30 @@ class Contact:
         self.all_emails_from_home_page = all_emails_from_home_page
 
     def __repr__(self):
-        return "%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s" % (
+        # return "%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s:%s" % (
+        return "%s:%s:%s:%s" % (
         self.id,
         self.firstname,
         self.lastname,
-        self.middlename,
-        self.nickname,
-        self.title,
-        self.company,
+        # self.middlename,
+        # self.nickname,
+        # self.title,
+        # self.company,
         self.address,
-        self.homenumber,
-        self.mobile,
-        self.work,
-        self.fax,
-        self.email,
-        self.email2,
-        self.bday,
-        self.homepage,
-        self.email3,
-        self.bmonth,
-        self.byear,
-        self.aday,
-        self.amonth,
-        self.ayear
+        # self.homenumber,
+        # self.mobile,
+        # self.work,
+        # self.fax,
+        # self.email,
+        # self.email2,
+        # self.bday,
+        # self.homepage,
+        # self.email3,
+        # self.bmonth,
+        # self.byear,
+        # self.aday,
+        # self.amonth,
+        # self.ayear
         )
 
     def __eq__(self, other):

@@ -1,5 +1,13 @@
 {
+  "web": {
   "baseUrl": "http://p4ooolo.local/addressbook",
   "username": "admin",
   "password": "secret"
+  },
+  "db": {
+    "host": "localhost",
+    "name": "addressbook",
+    "user": "root",
+    "password": ""
+  }
 }

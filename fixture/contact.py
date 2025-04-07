@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 from model.contact import Contact
 import re
+import time
 
 class contactHelper:
 
@@ -18,6 +19,10 @@ class contactHelper:
     def select_contact_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
 
     def create_contact(self, contact):
@@ -49,6 +54,7 @@ class contactHelper:
         self.change_select_value("aday", contact.aday)
         self.change_select_value("amonth", contact.amonth)
         self.change_contact_value("ayear", contact.ayear)
+        #time.sleep(15)
 
 
     def submit_new_number(self):
@@ -90,6 +96,16 @@ class contactHelper:
         wd.find_element_by_name("update").click()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        # open modification form
+        wd.find_element_by_css_selector(f'a[href="edit.php?id={id}"]').click()
+        # fill group form
+        self.fill_contact_form(new_contact_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.contact_cache = None
+
 
     def delete_first_number(self):
         self.delete_number_by_index(0)
@@ -97,6 +113,13 @@ class contactHelper:
     def delete_number_by_index(self, index):
         wd = self.app.wd
         self.select_contact_by_index(index)
+        wd.find_element_by_xpath('//input[@value="Delete"]').click()
+        self.contact_cache = None
+
+
+    def delete_number_by_id(self, id):
+        wd = self.app.wd
+        self.select_contact_by_id(id)
         wd.find_element_by_xpath('//input[@value="Delete"]').click()
         self.contact_cache = None
 
@@ -175,3 +198,5 @@ class contactHelper:
         mobile = re.search("M: (.*)", text).group(1)
         # fax = re.search("F: (.*)", text).group(1)
         return Contact(homenumber=homenumber, work=work, mobile=mobile)
+
+  

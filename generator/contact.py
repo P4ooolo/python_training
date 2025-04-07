@@ -23,7 +23,8 @@ for o, a in opts:
         f = a
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    # symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits + " "*10
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -48,10 +49,10 @@ testdata = [
         bday=str(random.randrange(31) + 1),
         homepage=random_string("homepage", 10),
         bmonth=months[random.randrange(len(months) - 1)],
-        byear=random_string("byear", 10),
+        byear=random_string("", 4),
         aday=str(random.randrange(31) + 1),
         amonth=months[random.randrange(len(months) - 1)],
-        ayear=random_string("ayear", 10),
+        ayear=random_string("", 4),
     )
     for i in range(n)
 ]
