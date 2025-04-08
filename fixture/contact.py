@@ -220,4 +220,37 @@ class contactHelper:
         # fax = re.search("F: (.*)", text).group(1)
         return Contact(homenumber=homenumber, work=work, mobile=mobile)
 
+    def select_group_on_home_page(self):
+        wd = self.app.wd
+        wd.find_element_by_name("to_group").click()
+        selected_first_group = wd.find_element_by_css_selector("select[name='to_group'] option:nth-child(1)")
+        selected_first_group.click()
+        return selected_first_group.get_attribute('value')
+
+    def select_group_on_home_page_by_id(self, group_id):
+        wd = self.app.wd
+        wd.find_element_by_name("to_group").click()
+        wd.find_element_by_css_selector("select[name='to_group'] option[value='%s']" % group_id).click()
+
+
+    def filter_contacts_by_group_id(self, group_id):
+        wd = self.app.wd
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_css_selector("select[name='group'] option[value='%s']" % group_id).click()
+
+
+    def click_add_to_group(self):
+        wd = self.app.wd
+        wd.find_element_by_name("add").click()
+
+    def click_remove_from_group(self):
+        wd = self.app.wd
+        wd.find_element_by_name("remove").click()
+
+    def get_first_contact_id(self):
+        wd = self.app.wd
+        return wd.find_elements_by_name("selected[]")[0].get_attribute("value")
+
+
+
 

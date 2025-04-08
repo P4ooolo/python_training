@@ -144,5 +144,24 @@ class DbFixture:
         finally:
             cursor.close()
 
+    def get_contact_count_by_group_id(self, group_id):
+        cursor = self.connection.cursor()
+        try:
+            sql = "select count(id) from address_in_groups where group_id = %d" % int(group_id)
+            cursor.execute(sql)
+            return cursor.fetchone()[0]
+        finally:
+            cursor.close()
+
+    def is_contact_in_group(self, contact_id, group_id):
+        cursor = self.connection.cursor()
+        try:
+            sql = "select count(id) from address_in_groups where id = %d and group_id = %d" % (int(contact_id), int(group_id))
+            cursor.execute(sql)
+            return cursor.fetchone()[0] > 0
+        finally:
+            cursor.close()
+
+
     def destroy(self):
         self.connection.close()
