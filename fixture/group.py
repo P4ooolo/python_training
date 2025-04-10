@@ -4,6 +4,7 @@ class groupHelper:
     def __init__(self, app):
         self.app = app
 
+
     def create(self, group):
         wd = self.app.wd
         # init group creation
@@ -12,6 +13,7 @@ class groupHelper:
         # submit group creation
         wd.find_element_by_name("submit").click()
         self.group_cache = None
+
 
     def fill_group_form(self, group):
         self.change_field_value("group_name", group.name)
@@ -26,36 +28,42 @@ class groupHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
+
     def delete_group_by_index(self, index):
         wd = self.app.wd
         self.select_group_by_index(index)
-        # submit deletion
         wd.find_element_by_name("delete").click()
         self.group_cache = None
+
 
     def delete_group_by_id(self, id):
         wd = self.app.wd
         self.select_group_by_id(id)
-        # submit deletion
         wd.find_element_by_name("delete").click()
         self.group_cache = None
 
+
     def delete_first_group(self):
         self.delete_group_by_index(0)
+
 
     def select_group_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+
     def select_group_by_id(self, id):
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
+
     def select_first_group(self):
         self.select_group_by_index(0)
 
+
     def modify_first_group(self, new_group_data):
         self.modify_group_by_index(0)
+
 
     def modify_group_by_index (self, index, new_group_data):
         wd = self.app.wd
@@ -67,6 +75,7 @@ class groupHelper:
         # submit modification
         wd.find_element_by_name("update").click()
         self.group_cache = None
+
 
     def modify_group_by_id (self, id, new_group_data):
         wd = self.app.wd
@@ -85,10 +94,12 @@ class groupHelper:
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
+
     def count(self):
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
+
 
     group_cache = None
 

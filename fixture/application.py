@@ -6,7 +6,6 @@ from fixture.group import groupHelper
 from fixture.session import sessionHelper
 
 
-
 class Application:
 
     def __init__(self, browser, base_url):
@@ -24,12 +23,14 @@ class Application:
         self.contact = contactHelper(self)
         self.base_url = base_url
 
+
     def is_element_present(self, how, what):
         try:
             self.wd.find_element(by=how, value=what)
         except NoSuchElementException as e:
             return False
         return True
+
 
     def is_alert_present(self):
         try:
@@ -55,8 +56,3 @@ class Application:
         wd = self.wd
         if not wd.current_url.endswith("/index.php"):
             wd.get(self.base_url)
-
-
-
-
-

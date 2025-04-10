@@ -3,6 +3,7 @@ from model.contact import Contact
 import re
 import time
 
+
 class contactHelper:
 
     def __init__(self, app):
@@ -16,9 +17,11 @@ class contactHelper:
     def select_first_contact(self):
         self.select_contact_by_index(0)
 
+
     def select_contact_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
@@ -31,6 +34,7 @@ class contactHelper:
         self.fill_contact_form(contact)
         self.submit_new_number()
         self.contact_cache = None
+
 
     def fill_contact_form(self, contact):
         self.change_contact_value("firstname", contact.firstname)
@@ -54,12 +58,12 @@ class contactHelper:
         self.change_select_value("aday", contact.aday)
         self.change_select_value("amonth", contact.amonth)
         self.change_contact_value("ayear", contact.ayear)
-        #time.sleep(15)
 
 
     def submit_new_number(self):
         wd = self.app.wd
         wd.find_element_by_name("submit").click()
+
 
     def change_contact_value(self, field_name, text):
         wd = self.app.wd
@@ -67,6 +71,7 @@ class contactHelper:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
+
 
     def change_select_value(self, field_name, text):
         wd = self.app.wd
@@ -96,6 +101,7 @@ class contactHelper:
         wd.find_element_by_name("update").click()
         self.contact_cache = None
 
+
     def modify_contact_by_id(self, id, new_contact_data):
         wd = self.app.wd
         # open modification form
@@ -109,6 +115,7 @@ class contactHelper:
 
     def delete_first_number(self):
         self.delete_number_by_index(0)
+
 
     def delete_number_by_index(self, index):
         wd = self.app.wd
@@ -128,7 +135,9 @@ class contactHelper:
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
+
     contact_cache = None
+
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
@@ -136,6 +145,7 @@ class contactHelper:
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[7]
         cell.find_element_by_tag_name("a").click()
+
 
     def open_contact_to_view_by_index(self, index):
         wd = self.app.wd
@@ -159,19 +169,6 @@ class contactHelper:
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails, address=address))
         return list(self.contact_cache)
 
-    # def get_contact_list(self):
-    #     if self.contact_cache is None:
-    #         wd = self.app.wd
-    #         self.contact_cache = []
-    #         for row in wd.find_elements_by_name("entry"):
-    #             cells = row.find_elements_by_tag_name("td")
-    #             firstname = cells[1].text
-    #             lastname = cells[2].text
-    #             id = cells[0].find_element_by_tag_name("input").get_attribut("value")
-    #             all_phones = cells[5].text.splitlines()
-    #             self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, homephone=all_phones[0], mobilephone=all_phones[1],workphone=all_phones[2], secondaryphon=all_phones[3]))
-    #     return list(self.contact_cache)
-
 
     def get_contact_from_edit_page(self, index):
         wd = self.app.wd
@@ -191,24 +188,6 @@ class contactHelper:
                        homenumber=homenumber, work=work, mobile=mobile,
                        email=email, email2=email2, email3=email3, address=address)
 
-    # def get_contacts_from_edit_page(self):
-    #     wd = self.app.wd
-    #     all_contacts_edit_page = []
-    #     self.open_all_contact()
-    #     firstname = wd.find_element_by_name("firstname").get_attribute("value")
-    #     lastname = wd.find_element_by_name("lastname").get_attribute("value")
-    #     id = wd.find_element_by_name("id").get_attribute("value")
-    #     homenumber = wd.find_element_by_name("home").get_attribute("value")
-    #     work = wd.find_element_by_name("work").get_attribute("value")
-    #     mobile = wd.find_element_by_name("mobile").get_attribute("value")
-    #     email = wd.find_element_by_name("email").get_attribute("value")
-    #     email2 = wd.find_element_by_name("email2").get_attribute("value")
-    #     email3 = wd.find_element_by_name("email3").get_attribute("value")
-    #     address = wd.find_element_by_name("address").get_attribute("value")
-    #
-    #     return Contact(firstname=firstname, lastname=lastname, id=id,
-    #                    homenumber=homenumber, work=work, mobile=mobile,
-    #                    email=email, email2=email2, email3=email3, address=address)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -220,12 +199,14 @@ class contactHelper:
         # fax = re.search("F: (.*)", text).group(1)
         return Contact(homenumber=homenumber, work=work, mobile=mobile)
 
+
     def select_group_on_home_page(self):
         wd = self.app.wd
         wd.find_element_by_name("to_group").click()
         selected_first_group = wd.find_element_by_css_selector("select[name='to_group'] option:nth-child(1)")
         selected_first_group.click()
         return selected_first_group.get_attribute('value')
+
 
     def select_group_on_home_page_by_id(self, group_id):
         wd = self.app.wd
@@ -243,14 +224,12 @@ class contactHelper:
         wd = self.app.wd
         wd.find_element_by_name("add").click()
 
+
     def click_remove_from_group(self):
         wd = self.app.wd
         wd.find_element_by_name("remove").click()
 
+
     def get_first_contact_id(self):
         wd = self.app.wd
         return wd.find_elements_by_name("selected[]")[0].get_attribute("value")
-
-
-
-

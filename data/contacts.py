@@ -1,6 +1,5 @@
 from model.contact import Contact
 
-
 testdata = [
     Contact(firstname="name1", middlename="name1", lastname="name1", nickname="name1", title="name1", company="name1", address="name1", homenumber="86543+()1", mobile="name1",
                             work="name1", fax="name1", email="name1", email2="name1", bday="1", homepage="name1", email3="name1",
