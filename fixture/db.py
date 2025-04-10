@@ -1,5 +1,4 @@
 import pymysql.connections
-
 from model.contact import Contact
 from model.group import Group
 
@@ -12,6 +11,7 @@ class DbFixture:
         self.password = password
         self.connection = pymysql.connect(host=host, database=name, user=user, password=password, autocommit=True)
 
+
     def get_group_list(self):
         list = []
         cursor = self.connection.cursor()
@@ -23,6 +23,7 @@ class DbFixture:
         finally:
             cursor.close()
         return list
+
 
     def get_contact_list(self):
         list = []
@@ -103,8 +104,8 @@ class DbFixture:
             cursor.close()
         return list
 
-    def get_contact_by_id(self, id):
 
+    def get_contact_by_id(self, id):
         cursor = self.connection.cursor()
         try:
             sql = """select
@@ -144,6 +145,7 @@ class DbFixture:
         finally:
             cursor.close()
 
+
     def get_contact_count_by_group_id(self, group_id):
         cursor = self.connection.cursor()
         try:
@@ -152,6 +154,7 @@ class DbFixture:
             return cursor.fetchone()[0]
         finally:
             cursor.close()
+
 
     def is_contact_in_group(self, contact_id, group_id):
         cursor = self.connection.cursor()
