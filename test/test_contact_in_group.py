@@ -8,7 +8,7 @@ def test_add_contact_in_group(app, db):
         app.group.create(Group(name="test"))
     app.return_to_home_page()
     if len(db.get_contact_list()) == 0:
-        app.contact.create(Contact(firstname="test"))
+        app.contact.create_contact(Contact(firstname="test"))
     contact = random.choice(db.get_contact_list())
     group = random.choice(db.get_group_list())
     if db.is_contact_in_group(contact.id, group.id):
@@ -25,7 +25,7 @@ def test_add_contact_in_group(app, db):
 
 def test_del_contact_in_group(app, db):
     if len(db.get_contact_list()) == 0:
-        app.contact.create(Contact(firstname="test"))
+        app.contact.create_contact(Contact(firstname="test"))
     if len(db.get_group_list()) == 0:
         app.group.open_groups_page()
         app.group.create(Group(name="test"))
