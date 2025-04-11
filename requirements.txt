@@ -1,5 +1,12 @@
-pytest
-selenium
-jsonpickle
-pony
-pymysql
+certifi==2025.1.31
+distlib==0.3.9
+filelock==3.17.0
+iniconfig==2.0.0
+packaging==24.2
+platformdirs==4.3.6
+pluggy==1.5.0
+pytest==8.3.4
+selenium==3.141.0
+urllib3==1.26.16
+virtualenv==20.29.1
+wheel @ file:///opt/homebrew/Cellar/python%403.13/3.13.3/libexec/wheel-0.45.1-py3-none-any.whl#sha256=c00982b077e92504359d52a0482365099ab8c23f26817848cf77c784f6af247c
